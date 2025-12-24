@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Michael Lyons — Youtube Uploader</title>
+    <meta name="application-name" content="Michael Lyons">
+    <style>
+      html,body{height:100%;margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:#020202;color:#dbeafe}
+      .wrap{position:relative;min-height:100%;overflow:hidden}
+      header{position:relative;z-index:2;padding:48px 24px;text-align:center}
+      h1{margin:0;font-size:28px;color:#a7f3d0}
+      p.lead{margin:8px 0 20px;color:#93c5fd}
+      .card{background:rgba(2,6,23,0.6);backdrop-filter:blur(6px);display:inline-block;padding:18px 22px;border-radius:10px}
+      a{color:#9ae6b4}
+      footer{position:relative;z-index:2;padding:20px;text-align:center;font-size:13px;color:#94a3b8}
+      canvas#bg{position:fixed;inset:0;z-index:1;width:100%;height:100%;display:block}
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <canvas id="bg" aria-hidden="true"></canvas>
+      <header>
+        <div class="card">
+          <h1>Michael Lyons</h1>
+          <p class="lead">Automated ambient video generator and uploader</p>
+          <p>
+            <a href="https://sliptronicmalonic-lang.github.io/YoutubeUploader/PRIVACY_POLICY.html">Privacy Policy</a>
+            &nbsp;•&nbsp;
+            <a href="https://sliptronicmalonic-lang.github.io/YoutubeUploader/TERMS.html">Terms &amp; Safety</a>
+          </p>
+          <p style="margin-top:8px;color:#c7d2fe">Contact: sliptronicmalonic@gmail.com</p>
+        </div>
+      </header>
+
+      <footer>
+        This site provides the application metadata and legal pages referenced on the OAuth consent screen.
+      </footer>
+    </div>
+
+    <script>
+      // Simple Matrix-like falling pixels background
+      const canvas = document.getElementById('bg');
+      const ctx = canvas.getContext('2d');
+      let W = canvas.width = innerWidth;
+      let H = canvas.height = innerHeight;
+      const cols = Math.floor(W / 14);
+      const drops = Array.from({length: cols}).map(()=>Math.random()*H);
+
+      function resize(){ W = canvas.width = innerWidth; H = canvas.height = innerHeight; }
+      addEventListener('resize', ()=>{ resize(); });
+
+      function draw(){
+        ctx.fillStyle = 'rgba(0,0,0,0.12)';
+        ctx.fillRect(0,0,W,H);
+        ctx.fillStyle = '#0f766e';
+        ctx.font = '12px monospace';
+        for(let i=0;i<drops.length;i++){
+          const x = i * 14;
+          const y = drops[i];
+          const char = Math.random() > 0.85 ? '█' : (Math.random()>0.6? '·' : ' ');
+          ctx.fillText(char, x, y);
+          drops[i] = y > H + Math.random()*100 ? 0 : y + 12 + Math.random()*6;
+        }
+        requestAnimationFrame(draw);
+      }
+      draw();
+    </script>
+  </body>
+</html>
