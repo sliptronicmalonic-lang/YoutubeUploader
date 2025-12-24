@@ -1,0 +1,1 @@
+module.exports = { ENTRY_AMOUNT: 0.2, MAX_PLAYERS: 25, ROUND_TIME_MS: 180000 }
